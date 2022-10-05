@@ -29,6 +29,14 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  provider: ^6.0.2
+  line_awesome_flutter: ^2.0.0
+  # pick image
+  image_picker: ^0.8.5+3
+
+  # store image
+  path_provider: ^2.0.11
+  shared_preferences: ^2.0.15
   flutter:
     sdk: flutter
 
