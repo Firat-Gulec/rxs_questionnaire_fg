@@ -33,7 +33,10 @@ dependencies:
   line_awesome_flutter: ^2.0.0
   # pick image
   image_picker: ^0.8.5+3
-
+  group_button: ^5.2.2
+  flutter_typeahead: ^4.1.1
+  survey_kit: ^0.1.1
+  get: ^4.6.5
   # store image
   path_provider: ^2.0.11
   shared_preferences: ^2.0.15
