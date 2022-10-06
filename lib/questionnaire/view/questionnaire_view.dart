@@ -169,10 +169,10 @@ class _QuestionnaireViewState extends State<QuestionnaireView>
   }
 
   Future<Task> getJsonTask() async {
-    final prefs = await SharedPreferences.getInstance();
-    name = prefs.getString("name") ?? "null";
-    loadString = prefs.getString("loadstring") ?? "null";
-    final taskJson = await rootBundle.loadString(loadString);
+    //final prefs = await SharedPreferences.getInstance();
+    //name = prefs.getString("name") ?? "null";
+    //loadString = prefs.getString("loadstring") ?? "null";
+    final taskJson = await rootBundle.loadString("assets/questionnaires/login_survey.json");
     final taskMap = json.decode(taskJson);
 
     return Task.fromJson(taskMap);
