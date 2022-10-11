@@ -112,12 +112,7 @@ class _WelcomeSurveyViewState extends State<WelcomeSurveyView> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  /*       Padding(padding: CustomPadding()),
-                    Image.asset(
-                      'assets/images/breeding-pets.jpg',
-                      width: size.width * 0.80,
-                    ),
-                    Padding(padding: CustomPadding()),*/
+                  
                   Visibility(
                     visible: true,
                     child: Form(
