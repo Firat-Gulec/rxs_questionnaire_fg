@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -33,13 +32,13 @@ final TextEditingController _phoneNumberController = TextEditingController();
 late final List<String> selectedOptions;
 late final String selectedCity;
 
-class _WelcomeSurveyViewState extends State<WelcomeSurveyView>
-    {
+class _WelcomeSurveyViewState extends State<WelcomeSurveyView> {
   final List<QuestionModel> _questions = sample_data
       .map(
         (question) => QuestionModel(
             id: question['id'],
             question: question['question'],
+            image: question['image'],
             options: question['options'],
             answer: question['answer_index']),
       )
@@ -58,142 +57,138 @@ class _WelcomeSurveyViewState extends State<WelcomeSurveyView>
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            setState(() {
-              surveycontroller.decrease();
-              surveycontroller.visibilityfunc();
-            });
-          },
-        ),
-        actions: <Widget>[
-          ElevatedButton(
+     
+      body: Stack(
+        //alignment: Alignment.topCenter,
+        children: [
+          Image.asset(
+            _questions[surveycontroller.count.toInt()].image,
+            width: size.width,
+            height: size.width,
+            fit: BoxFit.fill,
+          ),
+          Container(
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 setState(() {
-                  surveycontroller.increment();
+                  surveycontroller.decrease();
                   surveycontroller.visibilityfunc();
-                  // ignore: avoid_print
-                  print(_groupboxcontroller.selectedIndexes);
-
-                  _groupboxcontroller.selectedIndexes.clear();
                 });
               },
-              child: Text("tr(LocaleKeys.questionnaire_next)"),
-              style: ElevatedButton.styleFrom(
-                elevation: 0.0,
-                primary: Colors.transparent.withOpacity(0),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(50),
-                  ),
-                ),
-              )),
-        ],
-        backgroundColor: Colors.transparent,
-        elevation: 0.2,
-        title: Text("tr(LocaleKeys.questionnaire_questionnaire)"),
-        centerTitle: true,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[
-                Theme.of(context).primaryColor,
-                Theme.of(context).backgroundColor,
-              ])),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            const SizedBox(
-              height: 100,
-              child: HeaderWidget(100, false, Icons.house_rounded),
             ),
-            Container(
-              //  alignment: Alignment.topCenter,
-              margin: const EdgeInsets.fromLTRB(25, 10, 25, 10),
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(padding: CustomPadding()),
+          ),
+          Container(
+            alignment: Alignment.topRight,
+            child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    surveycontroller.increment();
+                    surveycontroller.visibilityfunc();
+                    // ignore: avoid_print
+                    print(_groupboxcontroller.selectedIndexes);
+
+                    _groupboxcontroller.selectedIndexes.clear();
+                  });
+                },
+                child: Text(
+                  "Next",
+                  style: TextStyle(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  elevation: 0.0,
+                  primary: Colors.transparent.withOpacity(0),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50),
+                    ),
+                  ),
+                )),
+          ),
+          Container(
+            //  alignment: Alignment.topCenter,
+            margin: const EdgeInsets.fromLTRB(25, 10, 25, 10),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  /*       Padding(padding: CustomPadding()),
                     Image.asset(
-                      'assets/logos/petlogo.png',
-                      width: size.width * 0.50,
+                      'assets/images/breeding-pets.jpg',
+                      width: size.width * 0.80,
                     ),
-                    Padding(padding: CustomPadding()),
-                    Visibility(
-                      visible: true,
-                      child: Form(
-                        //margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                        //padding: EdgeInsets.all(kDefaultPadding),
-                        child: Column(children: [
-                          Text(
-                            _questions[surveycontroller.count.toInt()].question,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6
-                                ?.copyWith(color: Colors.white),
-                          ),
-                        ]),
-                      ),
+                    Padding(padding: CustomPadding()),*/
+                  Visibility(
+                    visible: true,
+                    child: Form(
+                      //margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                      //padding: EdgeInsets.all(kDefaultPadding),
+                      child: Column(children: [
+                        Text(
+                          _questions[surveycontroller.count.toInt()].question,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ]),
                     ),
-                    Padding(padding: CustomPadding()),
-                    Visibility(
-                      visible: surveycontroller.isVisibleLoc.value,
-                      child: TypeAheadFormField(
-                        textFieldConfiguration: TextFieldConfiguration(
-                            controller: _typeAheadController,
-                            decoration: InputDecoration(
-                                labelText: "tr(LocaleKeys.questionnaire_city)",
-                                hoverColor: Colors.white,
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                fillColor: Theme.of(context).backgroundColor,
-                                filled: true)),
-                        suggestionsCallback: (pattern) {
-                          return surveycontroller.fetchSuggestions(pattern);
-                        },
-                        itemBuilder: (context, pattern) {
-                          return ListTile(
-                            title: Text(pattern.toString()),
-                          );
-                        },
-                        transitionBuilder:
-                            (context, suggestionsBox, controller) {
-                          return suggestionsBox;
-                        },
-                        onSuggestionSelected: (suggestion) {
-                          _typeAheadController.text = suggestion.toString();
-                        },
-                      ),
+                  ),
+                  Padding(padding: CustomPadding()),
+                  Visibility(
+                    visible: surveycontroller.isVisibleLoc.value,
+                    child: Column(
+                      children: [
+                        TypeAheadFormField(
+                          textFieldConfiguration: TextFieldConfiguration(
+                              controller: _typeAheadController,
+                              decoration: InputDecoration(
+                                  labelText: "Şehir",
+                                  hoverColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  fillColor: Theme.of(context).backgroundColor,
+                                  filled: true)),
+                          suggestionsCallback: (pattern) {
+                            return surveycontroller.fetchSuggestions(pattern);
+                          },
+                          itemBuilder: (context, pattern) {
+                            return ListTile(
+                              title: Text(pattern.toString()),
+                            );
+                          },
+                          transitionBuilder:
+                              (context, suggestionsBox, controller) {
+                            return suggestionsBox;
+                          },
+                          onSuggestionSelected: (suggestion) {
+                            _typeAheadController.text = suggestion.toString();
+                          },
+                        ),
+                      ],
                     ),
-                    Visibility(
-                      visible: surveycontroller.isVisiblePho.value,
-                      child: TextFormField(
-                        controller: _phoneNumberController,
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                            labelText:" tr(LocaleKeys.questionnaire_phone)",
-                            hoverColor: Colors.white,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            fillColor: Theme.of(context).backgroundColor,
-                            filled: true),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(12),
-                          CountryCodeTextInputFormatter(),
-                          PhoneNumberTextFormatter(),
-                        ],
-                      ),
+                  ),
+                  Visibility(
+                    visible: surveycontroller.isVisiblePho.value,
+                    child: TextFormField(
+                      controller: _phoneNumberController,
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                          labelText: " tr(LocaleKeys.questionnaire_phone)",
+                          hoverColor: Colors.white,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          fillColor: Theme.of(context).backgroundColor,
+                          filled: true),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(12),
+                        CountryCodeTextInputFormatter(),
+                        PhoneNumberTextFormatter(),
+                      ],
                     ),
-                 /*   Visibility(
+                  ),
+                  /*   Visibility(
                       visible: surveycontroller.isVisibleChe.value,
                       child:  GroupButton(
                         controller: _groupboxcontroller,
@@ -233,11 +228,10 @@ class _WelcomeSurveyViewState extends State<WelcomeSurveyView>
                         buttonWidth: 115,
                       ),
                     ),*/
-                    Padding(padding: CustomPadding()),
-                  ]),
-            ),
-          ],
-        ),
+                  Padding(padding: CustomPadding()),
+                ]),
+          ),
+        ],
       ),
     );
   }

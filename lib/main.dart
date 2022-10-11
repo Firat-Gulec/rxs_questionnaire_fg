@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:rxs_questionnaire_fg/questionnaire/view/welcome_survey_view.dart';
 
 import 'questionnaire/view/questionnaire_view.dart';
 import 'theme_provider.dart';
@@ -25,6 +26,6 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(themeMode: themeProvider.themeMode,
       theme: MyThemes.darkTheme,
       darkTheme: MyThemes.darkTheme,
-      debugShowCheckedModeBanner: false, home: QuestionnaireView());
+      debugShowCheckedModeBanner: false, home: WelcomeSurveyView());
   }
 }
