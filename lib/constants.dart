@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 const countryList = [
   "Adana",
   "Adıyaman",
